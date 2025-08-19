@@ -1,0 +1,58 @@
+{
+  "header": {
+    "link": "https://warriorplus.com/o2/a/p9x7hm3/0",
+    "text": "No tech skills. No website. No learning curve. Just pure, repeatable, free traffic - in just ",
+    "price": "$12.65"
+  },
+  "mainSection": {
+    "left": {
+      "badgeText": "🚀 #1 Completely Free Traffic – No ads, no tools, no hosting fees.",
+      "heading": "Without Ghost Page, You’re Invisible: The #1 Hidden Google Trick You’ll Never Discover Alone",
+      "highlight": "Ghost Page",
+      "paragraph": "Whether you’re an affiliate, coach, small biz, or consultant — Ghost Pages delivers traffic, fast.",
+      "stats": [
+        {"value": "5 Min", "label": "Setup Time"},
+        {"value": "0", "label": "Hosting Needed"},
+        {"value": "3", "label": "Step Setup"},
+        {"value": "100%", "label": "Free Traffic"},
+        {"value": "1 Click", "label": "Page Builder"},
+        {"value": "5X", "label": "Faster Ranking"},
+        {"value": "1%", "label": "Top Affiliates"},
+        {"value": "500+", "label": "Marketing Tools"},
+        {"value": "200+", "label": "Global Reach"},
+        {"value": "0", "label": "Tech Skills Required"}
+      ]
+    },
+    "right": {
+      "form": {
+        "fields": [
+          {"label": "Full Name", "placeholder": "Enter your full name", "id": "name"},
+          {"label": "Email Address", "placeholder": "Enter your email", "id": "email"}
+        ],
+        "submitButton": "Yes! I Want Free Traffic",
+        "benefits": [
+          "No website needed",
+          "100% Refund Policy",
+          "Works worldwide for any niche",
+          "Newbie-friendly, point-and-click"
+        ]
+      }
+    }
+  },
+  "footer": {
+    "testimonials": [
+      {
+        "img": "https://randomuser.me/api/portraits/women/12.jpg",
+        "name": "Priya K.",
+        "text": "I was shocked — within 24 hours my affiliate offer started getting traffic without me touching SEO. Ghost Pages really is point-and-click!",
+        "rating": 5
+      },
+      {
+        "img": "https://randomuser.me/api/portraits/men/11.jpg",
+        "name": "David M.",
+        "text": "No website, no ads, and yet my funnel is ranking. Ghost Pages feels like having a secret cheat code for Google.",
+        "rating": 5
+      }
+    ]
+  }
+}

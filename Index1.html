@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHOST PAGES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @keyframes carousel { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-carousel { display: flex; animation: carousel 25s linear infinite; }
+        .animate-carousel:hover { animation-play-state: paused; }
+        .animate-glow { animation: glow 2.5s ease-in-out infinite alternate; }
+        @keyframes glow { 0% { box-shadow: 0 0 10px 0 rgba(255, 255, 0, 0.2); } 100% { box-shadow: 0 0 25px 5px rgba(255, 255, 0, 0.5); } }
+        .footer-glow { position: relative; }
+        .footer-glow::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(to right, rgba(255,255,0,0.2), rgba(255,255,0,0.5), rgba(255,255,0,0.2)); animation: footerGlow 2s ease-in-out infinite alternate; }
+        @keyframes footerGlow { from { opacity: 0.5; } to { opacity: 1; } }
+        .loader { border: 2px solid #f3f3f3; border-top: 2px solid #facc15; border-radius: 50%; width: 16px; height: 16px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100">
+
+    <!-- Config JSON -->
+    
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 shadow-md px-4 py-1 flex justify-center items-center animate-pulse backdrop-blur-lg bg-opacity-100">
+        <a id="headerLink" href="#" class="text-lg font-semibold text-blue-700 hover:underline animate-pulse relative">
+            <span class="absolute -inset-1 bg-yellow-200 blur-lg rounded-lg opacity-70 animate-ping"></span>
+            <span class="relative z-10" id="headerText"></span>
+        </a>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex flex-col lg:flex-row w-full h-full gap-0 mb-0 pb-0">
+        <!-- Left Section -->
+        <div class="lg:w-3/4 w-full h-full relative overflow-hidden bg-gray-800">
+            <div class="relative z-10 p-6 h-full flex flex-col justify-center">
+                <div class="mb-4 flex items-center space-x-2">
+                    <img src="https://img.icons8.com/fluency/48/verified-badge.png" alt="Verified Badge"
+                        class="w-6 h-6">
+                    <span id="badgeText" class="bg-yellow-300 text-black text-sm font-semibold px-3 py-1 rounded-full shadow animate-pulse"></span>
+                </div>
+                <h2 class="text-3xl font-bold mb-6 tracking-wide leading-snug" id="mainHeading"></h2>
+                <p class="text-lg text-gray-300 mb-6 leading-relaxed" id="mainParagraph"></p>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-green-400 text-sm font-medium" id="statsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="lg:w-1/4 w-full bg-gray-900 p-6 flex flex-col justify-center">
+            <form id="contactForm" class="bg-gray-800 p-6 rounded-lg shadow-lg space-y-4 animate-glow">
+                <div id="formFields"></div>
+                <button id="submitBtn" type="submit"
+                    class="w-full py-2 px-4 bg-yellow-200 text-gray-900 font-semibold rounded-md shadow-md hover:bg-yellow-300 hover:animate-none animate-bounce border border-yellow-400 hover:border-yellow-600 transition"></button>
+                <div class="grid grid-cols-2 gap-2 pt-4 text-green-300 text-xs font-medium" id="formBenefits"></div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full px-0 py-0 bg-gray-900 shadow-inner footer-glow">
+        <div class="relative overflow-hidden">
+            <div class="flex animate-carousel space-x-6 py-4" id="testimonials"></div>
+        </div>
+    </footer>
+
+    <!-- Script to populate HTML from JSON config -->
+<script>
+async function loadConfig() {
+    const response = await fetch('config.json');
+    const config = await response.json();
+
+    // Header
+    document.getElementById('headerLink').href = config.header.link;
+    document.getElementById('headerText').innerHTML = config.header.text + `<span class="font-bold italic underline text-green-600 text-2xl">${config.header.price}</span>`;
+
+    // Left Section
+    document.getElementById('badgeText').textContent = config.mainSection.left.badgeText;
+    document.getElementById('mainHeading').innerHTML = config.mainSection.left.heading.replace(config.mainSection.left.highlight, `<span class="text-4xl text-cyan-500"><em><u>${config.mainSection.left.highlight}</u></em></span>`);
+    document.getElementById('mainParagraph').textContent = config.mainSection.left.paragraph;
+
+    // Stats
+    const statsGrid = document.getElementById('statsGrid');
+    statsGrid.innerHTML = ''; // clear first
+    config.mainSection.left.stats.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = "bg-gray-700 p-4 rounded shadow text-center";
+        div.innerHTML = `<div class="text-2xl font-bold text-green-300">${stat.value}</div><div>${stat.label}</div>`;
+        statsGrid.appendChild(div);
+    });
+
+    // Right Section Form
+    const formFields = document.getElementById('formFields');
+    formFields.innerHTML = ''; // clear first
+    config.mainSection.right.form.fields.forEach(field => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <label for="${field.id}" class="block text-sm font-semibold text-white">${field.label} <span class="text-red-500">*</span></label>
+            <input id="${field.id}" name="${field.id}" required type="${field.id === 'email' ? 'email' : 'text'}" placeholder="${field.placeholder}"
+                class="w-full px-4 py-2 mt-1 rounded-md shadow bg-white text-black focus:ring-2 focus:ring-yellow-400 hover:shadow-lg transition">`;
+        formFields.appendChild(div);
+    });
+    document.getElementById('submitBtn').textContent = config.mainSection.right.form.submitButton;
+
+    const formBenefits = document.getElementById('formBenefits');
+    formBenefits.innerHTML = ''; // clear first
+    config.mainSection.right.form.benefits.forEach(benefit => {
+        const div = document.createElement('div');
+        div.className = "flex items-center space-x-1";
+        div.innerHTML = `<span>✔️</span><span>${benefit}</span>`;
+        formBenefits.appendChild(div);
+    });
+
+    // Footer Testimonials
+    const testimonialsDiv = document.getElementById('testimonials');
+    testimonialsDiv.innerHTML = ''; // clear first
+    config.footer.testimonials.forEach(t => {
+        const div = document.createElement('div');
+        div.className = "bg-gray-700 text-white rounded-lg shadow p-4 w-64 flex-shrink-0 flex flex-col items-center";
+        div.innerHTML = `
+            <img src="${t.img}" alt="${t.name}" class="w-12 h-12 rounded-full mb-2">
+            <p class="text-sm text-center">${t.text}</p>
+            <div class="mt-2 text-yellow-400 font-semibold text-sm">— ${t.name}</div>
+            <div class="flex mt-1">${'⭐'.repeat(t.rating)}</div>`;
+        testimonialsDiv.appendChild(div);
+    });
+
+    return config;
+}
+
+// Load config and initialize form
+loadConfig().then(config => {
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+
+        if (!name) return alert("Full name is required.");
+        if (!email) return alert("Email is required.");
+        if (!email.includes('@')) return alert("Email must contain '@'.");
+
+        const data = { data: [{ name, email }] };
+        submitBtn.innerHTML = '<span class="loader mr-2"></span>Submitting...';
+        submitBtn.disabled = true;
+
+        try {
+            await fetch("https://sheetdb.io/api/v1/YOUR_API_ID", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            window.open(config.header.link, "_blank");
+            form.reset();
+        } catch (err) {
+            alert("Something went wrong. Please try again.");
+        } finally {
+            submitBtn.textContent = config.mainSection.right.form.submitButton;
+            submitBtn.disabled = false;
+        }
+    });
+});
+</script>
+
+
+
+</body>
+</html>

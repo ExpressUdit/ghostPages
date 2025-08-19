@@ -329,9 +329,10 @@
             submitBtn.innerHTML = '<span class="loader mr-2"></span>Submitting...';
             submitBtn.disabled = true;
 
+            const newTab = window.open('about:blank', '_blank');
 
             try {
-                await fetch("https://sheetdb.io/api/v1/YOUR_API_ID", {
+                await fetch("https://sheetdb.io/api/v1/9dkbu5ujz9ex2", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -340,7 +341,8 @@
                 });
 
                 // alert("Thank you! Your info was submitted.");
-                window.open("https://warriorplus.com/o2/a/p9x7hm3/0", "_blank");
+                // window.open("https://warriorplus.com/o2/a/p9x7hm3/0", "_blank");
+                newTab.location.href = "https://warriorplus.com/o2/a/p9x7hm3/0";
                 
             form.reset();
             } catch (err) {
